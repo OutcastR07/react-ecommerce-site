@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 const Product = ({ product }) => {
   const { image, id, description, title, price } = product;
   return (
-    <div className="max-w-sm rounded shadow-lg p-4 mx-1">
+    <div className="max-w-sm rounded shadow-lg p-4">
       <div className="h-[300px] mb-4 relative overflow-hidden group transition">
         <div className="w-full h-full flex justify-center items-center">
           <div className="w-[200px] mx-auto flex justify-center items-center">
