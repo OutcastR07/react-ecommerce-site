@@ -1,5 +1,5 @@
 import React, { useContext } from "react";
-import { BsBag } from "react-icons/bs";
+import { BsCart } from "react-icons/bs";
 import { SidebarContext } from "../contexts/SidebarContext";
 
 const Header = () => {
@@ -11,7 +11,7 @@ const Header = () => {
         onClick={() => setIsOpen(!isOpen)}
         className="cursor-pointer flex relative"
       >
-        <BsBag className="text-2xl" />
+        <BsCart className="text-2xl" />
       </div>
     </header>
   );
