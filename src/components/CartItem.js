@@ -1,5 +1,5 @@
+import { Add, Close, Remove } from "@mui/icons-material";
 import React, { useContext } from "react";
-import { IoMdAdd, IoMdClose, IoMdRemove } from "react-icons/io";
 import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 
@@ -28,7 +28,7 @@ const CartItem = ({ item }) => {
               onClick={() => removeFromCart(id)}
               className="text-xl cursor-pointer"
             >
-              <IoMdClose className="text-gray-500 hover:text-red-500 transition" />
+              <Close className="text-gray-500 hover:text-red-500 transition" />
             </div>
           </div>
           <div className="flex gap-x-2 h-[36px] text-sm">
@@ -39,10 +39,10 @@ const CartItem = ({ item }) => {
                 onClick={() => productDecrement(id)}
                 className="flex-1 h-full flex justify-center items-center cursor-pointer"
               >
-                <IoMdRemove />
+                <Remove />
               </div>
               {/* amount */}
-              <div className="h-full flex justify-center items-center px-2">
+              <div className="h-full flex justify-center items-center px-2 text-base">
                 {amount}
               </div>
               {/* add item */}
@@ -50,7 +50,7 @@ const CartItem = ({ item }) => {
                 onClick={() => productIncrement(id)}
                 className="flex-1 h-full flex justify-center items-center cursor-pointer"
               >
-                <IoMdAdd />
+                <Add />
               </div>
             </div>
             {/* item price */}
