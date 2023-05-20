@@ -35,17 +35,25 @@ const Navbar = () => {
         <div className="flex justify-between items-center h-full">
           <div>
             <Link to={"/"}>
-              <img className="w-14" src={Logo} alt="" />
+              <img className="w-14 lg:h-[75px] lg:w-[75px]" src={Logo} alt="" />
             </Link>
           </div>
           <div className="flex items-center gap-x-4">
-            {user && <div>{user.username}</div>}
-            <button
-              className="text-red-500 hover:underline"
-              onClick={handleLogout}
-            >
-              Logout
-            </button>
+            {user ? (
+              <>
+                <div>{user.username}</div>
+                <button
+                  className="text-red-500 hover:underline"
+                  onClick={handleLogout}
+                >
+                  Logout
+                </button>
+              </>
+            ) : (
+              <Link to={"/login"}>
+                <button className="hover:underline">Login</button>
+              </Link>
+            )}
             {/* cart */}
             <div
               onClick={() => setIsOpen(!isOpen)}

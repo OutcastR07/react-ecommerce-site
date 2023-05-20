@@ -1,11 +1,38 @@
 import { Add, Visibility } from "@mui/icons-material";
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 
 const Product = ({ product }) => {
   const { addToCart } = useContext(CartContext);
-  const { image, id, description, title, price } = product;
+  const { image, id, category, title, price } = product;
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    // Simulating data fetching delay
+    const delay = setTimeout(() => {
+      setIsLoading(false);
+    }, 2000);
+
+    // Clean up the timer
+    return () => clearTimeout(delay);
+  }, []);
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-40">
+        <div
+          className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+          role="status"
+        >
+          <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+            Loading...
+          </span>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="max-w-sm rounded shadow-lg p-4">
       <div className="h-[300px] mb-4 relative overflow-hidden group transition">
@@ -34,12 +61,12 @@ const Product = ({ product }) => {
       </div>
       <div>
         <Link to={`/product/${id}`}>
-          <h2 className="font-semibold mb-2 text-lg">{title}</h2>
+          <div className="font-semibold mb-2 text-3xl">$ {price}</div>
+          <div className="text-gray-500 text-justify text-sm capitalize">
+            {category}
+          </div>
+          <h2 className="font-semibold mt-2 text-lg">{title}</h2>
         </Link>
-        <div className="font-semibold text-3xl">$ {price}</div>
-        <div className="text-xs text-gray-500 mt-2 text-justify">
-          {description}
-        </div>
       </div>
     </div>
   );
