@@ -7,30 +7,48 @@ const Login = () => {
   const { login } = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [email, setEmail] = useState("");
+  const [error, setError] = useState(false);
 
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    // Perform login authentication logic here
-    console.log("Username:", username);
-    console.log("Password:", password);
-    console.log("Email:", email);
-    // Reset the form after login authentication
-    setUsername("");
-    setPassword("");
-    setEmail("");
-    // Call the login function from UserContext
-    login(username, password, email);
-    navigate("/");
+    try {
+      const response = await fetch("https://fakestoreapi.com/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        // Call the login function from UserContext
+        login(data.username, data.token);
+        navigate("/");
+      } else {
+        // Login failed, display error message
+        console.error("Login failed");
+        setError(true);
+      }
+    } catch (error) {
+      console.error("Login failed:", error);
+      // Handle login failure, show error message, etc.
+      setError(true);
+    }
   };
 
   return (
-    <div className="flex justify-center min-h-full flex-col px-6 py-12 lg:px-8">
-      <h2 className="mt-10 text-center text-2xl font-bold leading-9 tracking-tight text-gray-900">
-        Sign in to your account
-      </h2>
-      <div className="mt-10 sm:mx-auto sm:w-full sm:max-w-sm">
-        <form onSubmit={handleLogin} className="space-y-6">
+    <div className="flex justify-center items-center min-h-screen">
+      <div className="w-full max-w-sm">
+        <h2 className="mt-10 text-center text-2xl font-bold leading-9 text-gray-900">
+          Sign in to your account
+        </h2>
+        {error && (
+          <div className="text-red-500 mt-2">
+            Wrong username or password. Please try again.
+          </div>
+        )}
+        <form onSubmit={handleLogin} className="mt-10 space-y-6">
           <div>
             <label
               htmlFor="username"
@@ -63,23 +81,6 @@ const Login = () => {
               placeholder="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-gray-900"
-            >
-              Email:
-            </label>
-            <input
-              className="w-full rounded-md py-2 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 border-none focus:outline-none"
-              type="email"
-              id="email"
-              required
-              placeholder="Email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
           <button

@@ -25,6 +25,8 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  console.log(user);
+
   return (
     <header
       className={`${
