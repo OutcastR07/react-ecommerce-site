@@ -1,6 +1,6 @@
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 import { SidebarContext } from "../contexts/SidebarContext";
 import { UserContext } from "../contexts/UserContext";
@@ -11,7 +11,6 @@ const Navbar = () => {
   const { isOpen, setIsOpen } = useContext(SidebarContext);
   const { itemAmount } = useContext(CartContext);
   const { user, logout } = useContext(UserContext);
-  const navigate = useNavigate();
 
   // Event listener
   useEffect(() => {
@@ -22,10 +21,7 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
-    navigate("/login");
   };
-
-  console.log(user);
 
   return (
     <header

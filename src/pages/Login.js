@@ -8,9 +8,12 @@ const Login = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setIsLoading(true); // Set isLoading state to true
+
     try {
       const response = await fetch("https://fakestoreapi.com/auth/login", {
         method: "POST",
@@ -22,20 +25,36 @@ const Login = () => {
 
       if (response.ok) {
         const data = await response.json();
-        // Call the login function from UserContext
-        login(data.username, data.token);
+        login(username, data.token);
         navigate("/");
       } else {
-        // Login failed, display error message
         console.error("Login failed");
         setError(true);
       }
     } catch (error) {
       console.error("Login failed:", error);
-      // Handle login failure, show error message, etc.
       setError(true);
     }
+
+    setIsLoading(false); // Set isLoading state back to false
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="h-40 w-40 flex justify-center items-center">
+          <div
+            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+            role="status"
+          >
+            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
+              Loading...
+            </span>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="flex justify-center items-center min-h-screen">
@@ -86,8 +105,9 @@ const Login = () => {
           <button
             type="submit"
             className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-3 text-base font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            disabled={isLoading}
           >
-            Login
+            {isLoading ? <span>Loading...</span> : "Login"}
           </button>
         </form>
       </div>
