@@ -48,7 +48,8 @@ const Home = () => {
             <button
               onClick={handlePreviousPage}
               disabled={currentPage === 1}
-              className="bg-gray-200 hover:bg-blue-400 py-2 px-2 mr-2 rounded"
+              style={{ cursor: currentPage === 1 ? "not-allowed" : "pointer" }}
+              className="bg-gray-200 hover:bg-blue-400 py-2 px-2 mr-2 rounded hover:text-white"
             >
               <ArrowBack />
             </button>
@@ -62,7 +63,7 @@ const Home = () => {
                     currentPage === pageNumber
                       ? "bg-gray-800 text-white"
                       : "bg-gray-200 text-gray-700"
-                  } hover:bg-gray-300 py-2 px-4 rounded`}
+                  } hover:bg-blue-400 hover:text-white py-2 px-4 rounded mx-2`}
                 >
                   {pageNumber}
                 </button>
@@ -71,7 +72,10 @@ const Home = () => {
             <button
               onClick={handleNextPage}
               disabled={currentPage === totalPages}
-              className="bg-gray-200 hover:bg-blue-400 py-2 px-2 ml-2 rounded"
+              style={{
+                cursor: currentPage === totalPages ? "not-allowed" : "pointer",
+              }}
+              className="bg-gray-200 hover:bg-blue-400 py-2 px-2 ml-2 rounded hover:text-white"
             >
               <ArrowForward />
             </button>

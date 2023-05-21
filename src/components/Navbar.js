@@ -31,7 +31,7 @@ const Navbar = () => {
         isActive ? "bg-white py-4 shadow-md" : "bg-none py-6"
       } fixed w-full z-10 transition-all`}
     >
-      <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto px-2 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-full">
           <div>
             <Link to={"/"}>

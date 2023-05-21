@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import { useContext, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { UserContext } from "../contexts/UserContext";
 
@@ -7,17 +7,20 @@ const Login = () => {
   const { login } = useContext(UserContext);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [email, setEmail] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
     // Perform login authentication logic here
     console.log("Username:", username);
     console.log("Password:", password);
+    console.log("Email:", email);
     // Reset the form after login authentication
     setUsername("");
     setPassword("");
-    //call the login function from UserContext
-    login(username, password);
+    setEmail("");
+    // Call the login function from UserContext
+    login(username, password, email);
     navigate("/");
   };
 
@@ -62,9 +65,26 @@ const Login = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
+          <div>
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-900"
+            >
+              Email:
+            </label>
+            <input
+              className="w-full rounded-md py-2 text-gray-900 placeholder:text-gray-400 sm:text-sm sm:leading-6 border-none focus:outline-none"
+              type="email"
+              id="email"
+              required
+              placeholder="Email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+            />
+          </div>
           <button
             type="submit"
-            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+            className="flex w-full justify-center rounded-md bg-indigo-600 px-3 py-3 text-base font-semibold leading-6 text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
           >
             Login
           </button>
