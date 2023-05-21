@@ -8,6 +8,7 @@ import { default as Logo } from "../img/logo.png";
 
 const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
+  const [showLists, setShowLists] = useState(false);
   const { isOpen, setIsOpen } = useContext(SidebarContext);
   const { itemAmount } = useContext(CartContext);
   const { user, logout } = useContext(UserContext);
@@ -21,6 +22,10 @@ const Navbar = () => {
 
   const handleLogout = () => {
     logout();
+  };
+
+  const handleUsernameClick = () => {
+    setShowLists(!showLists);
   };
 
   return (
@@ -38,15 +43,27 @@ const Navbar = () => {
           </div>
           <div className="flex items-center gap-x-4">
             {user ? (
-              <>
-                <div>{user.username}</div>
-                <button
-                  className="text-red-500 hover:underline"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-              </>
+              <div className="relative">
+                <div className="cursor-pointer" onClick={handleUsernameClick}>
+                  {user.username}
+                </div>
+                {showLists && (
+                  <div className="absolute mt-2 py-2 bg-white shadow-md rounded-md text-sm z-10">
+                    <button className="block w-full px-4 py-2 hover:bg-gray-100">
+                      Details
+                    </button>
+                    <button className="block w-full px-4 py-2 hover:bg-gray-100">
+                      Purchase History
+                    </button>
+                    <button
+                      className="block w-full px-4 py-2 text-red-500 hover:bg-gray-100"
+                      onClick={handleLogout}
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <Link to={"/login"}>
                 <button className="hover:underline">Login</button>
