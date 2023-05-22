@@ -3,29 +3,36 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Footer from "./components/Footer";
 import Navbar from "./components/Navbar";
 import Sidebar from "./components/Sidebar";
+import CartProvider from "./contexts/CartContext"; // Import CartProvider
 import { UserProvider } from "./contexts/UserContext";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import ProductDetails from "./pages/ProductDetails";
+import PurchaseHistory from "./pages/PurchaseHistory";
 
 const App = () => {
   return (
     <div className="overflow-hidden">
       <BrowserRouter>
         <UserProvider>
-          <Routes>
-            <Route
-              path="*"
-              element={
-                <>
-                  <Navbar />
-                  <RoutesOutlet />
-                  <Footer />
-                </>
-              }
-            />
-            <Route path="/login" element={<Login />} />
-          </Routes>
+          <CartProvider>
+            {" "}
+            {/* Wrap the CartProvider */}
+            <Routes>
+              <Route
+                path="*"
+                element={
+                  <>
+                    <Navbar />
+                    <RoutesOutlet />
+                    <Footer />
+                  </>
+                }
+              />
+              <Route path="/login" element={<Login />} />
+              <Route exact path="/history" element={<PurchaseHistory />} />
+            </Routes>
+          </CartProvider>
         </UserProvider>
       </BrowserRouter>
     </div>

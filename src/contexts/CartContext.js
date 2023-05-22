@@ -3,13 +3,16 @@ import React, { createContext, useEffect, useState } from "react";
 export const CartContext = createContext();
 
 const CartProvider = ({ children }) => {
-  //cart state
+  // cart state
   const [cart, setCart] = useState([]);
-  //item amount state
+  // item amount state
   const [itemAmount, setItemAmount] = useState(0);
-  //total price state
+  // total price state
   const [totalPrice, setTotalPrice] = useState(0);
-  //update item amount
+  // purchase history state
+  const [purchaseHistory, setPurchaseHistory] = useState([]);
+
+  // update item amount
   useEffect(() => {
     if (cart) {
       const amount = cart.reduce((accumulator, currentItem) => {
@@ -18,7 +21,8 @@ const CartProvider = ({ children }) => {
       setItemAmount(amount);
     }
   }, [cart]);
-  //update total price
+
+  // update total price
   useEffect(() => {
     const totalPrice = cart.reduce((accumulator, currentItem) => {
       return accumulator + currentItem.price * currentItem.amount;
@@ -31,7 +35,7 @@ const CartProvider = ({ children }) => {
     const cartItem = cart.find((item) => {
       return item.id === id;
     });
-    //if cart item is already in cart
+    // if cart item is already in cart
     if (cartItem) {
       const newCart = [...cart].map((item) => {
         if (item.id === id) {
@@ -53,18 +57,18 @@ const CartProvider = ({ children }) => {
     setCart(newCart);
   };
 
-  //clear cart
+  // clear cart
   const clearCart = () => {
     setCart([]);
   };
 
-  //increment amount of product
+  // increment amount of product
   const productIncrement = (id) => {
     const item = cart.find((item) => item.id === id);
     addToCart(item, id);
   };
 
-  //decrement amount of product
+  // decrement amount of product
   const productDecrement = (id) => {
     const cartItem = cart.find((item) => item.id === id);
     if (cartItem) {
@@ -82,6 +86,11 @@ const CartProvider = ({ children }) => {
     }
   };
 
+  // Add purchase data to history
+  const addPurchaseToHistory = (purchaseData) => {
+    setPurchaseHistory((prevHistory) => [...prevHistory, purchaseData]);
+  };
+
   return (
     <CartContext.Provider
       value={{
@@ -93,6 +102,8 @@ const CartProvider = ({ children }) => {
         productDecrement,
         itemAmount,
         totalPrice,
+        purchaseHistory,
+        addPurchaseToHistory,
       }}
     >
       {children}

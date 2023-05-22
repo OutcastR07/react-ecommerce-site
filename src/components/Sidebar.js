@@ -4,10 +4,45 @@ import { Link } from "react-router-dom";
 import CartItem from "../components/CartItem";
 import { CartContext } from "../contexts/CartContext";
 import { SidebarContext } from "../contexts/SidebarContext";
+import { UserContext } from "../contexts/UserContext";
 
 const Sidebar = () => {
   const { isOpen, handleClose } = useContext(SidebarContext);
-  const { cart, clearCart, totalPrice, itemAmount } = useContext(CartContext);
+  const { cart, clearCart, totalPrice, itemAmount, addPurchaseToHistory } =
+    useContext(CartContext);
+  const { user } = useContext(UserContext);
+
+  // Generate a unique order ID
+  const generateOrderId = () => {
+    const timestamp = new Date().getTime();
+    const randomNum = Math.floor(Math.random() * 1000);
+    return `ORDER${timestamp}${randomNum}`;
+  };
+
+  // Handle purchase action
+  const handlePurchase = () => {
+    if (user) {
+      // Create purchase data
+      const purchaseData = {
+        orderId: generateOrderId(),
+        products: cart,
+        totalPrice: totalPrice,
+        timestamp: new Date().toLocaleString(),
+        // Add other relevant purchase details
+      };
+
+      // Add purchase data to history
+      addPurchaseToHistory(purchaseData);
+
+      // Clear the cart
+      clearCart();
+    } else {
+      // User is not logged in, handle accordingly
+      console.log("User is not logged in");
+      // You can show an error message or redirect to the login page
+    }
+  };
+
   return (
     <div
       className={`${
@@ -45,18 +80,22 @@ const Sidebar = () => {
             <DeleteOutline />
           </div>
         </div>
-        <Link
-          to="/"
-          className="bg-gray-200 flex p-4 justify-center items-center text-primary w-full font-medium"
-        >
-          View cart
-        </Link>
-        <Link
-          to="/"
-          className="bg-primary flex p-4 justify-center items-center text-white w-full font-medium"
-        >
-          Purchase
-        </Link>
+        {user ? (
+          <Link
+            to="/"
+            onClick={handlePurchase}
+            className="bg-primary flex p-4 justify-center items-center text-white w-full font-medium"
+          >
+            Purchase
+          </Link>
+        ) : (
+          <Link
+            to="/login"
+            className="bg-primary flex p-4 justify-center items-center text-white w-full font-medium"
+          >
+            Log in to Purchase
+          </Link>
+        )}
       </div>
     </div>
   );

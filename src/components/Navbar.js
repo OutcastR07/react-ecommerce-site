@@ -48,6 +48,15 @@ const Navbar = () => {
     }
   };
 
+  const handleDetailsClick = () => {
+    setShowLists(false);
+    handleOpenModal();
+  };
+
+  const handleHistoryClick = () => {
+    setShowLists(false);
+  };
+
   return (
     <header
       className={`${
@@ -71,13 +80,18 @@ const Navbar = () => {
                   <div className="absolute mt-2 py-2 bg-white shadow-md rounded-md text-sm z-10">
                     <button
                       className="block w-full px-4 py-2 hover:bg-gray-100"
-                      onClick={handleOpenModal}
+                      onClick={handleDetailsClick}
                     >
                       Details
                     </button>
-                    <button className="block w-full px-4 py-2 hover:bg-gray-100">
-                      History
-                    </button>
+                    <Link to="/history" className="nav-link">
+                      <button
+                        className="block w-full px-4 py-2 hover:bg-gray-100"
+                        onClick={handleHistoryClick}
+                      >
+                        History
+                      </button>
+                    </Link>
                     <button
                       className="block w-full px-4 py-2 text-red-500 hover:bg-gray-100"
                       onClick={handleLogout}
