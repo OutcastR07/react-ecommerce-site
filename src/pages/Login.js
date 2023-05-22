@@ -39,26 +39,9 @@ const Login = () => {
     setIsLoading(false); // Set isLoading state back to false
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="h-40 w-40 flex justify-center items-center">
-          <div
-            className="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
-            role="status"
-          >
-            <span className="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]">
-              Loading...
-            </span>
-          </div>
-        </div>
-      </div>
-    );
-  }
-
   return (
     <div className="flex justify-center items-center min-h-screen">
-      <div className="w-full max-w-sm">
+      <div className="w-full max-w-md p-8">
         <h2 className="mt-10 text-center text-2xl font-bold leading-9 text-gray-900">
           Sign in to your account
         </h2>
