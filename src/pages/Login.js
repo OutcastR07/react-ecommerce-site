@@ -12,7 +12,7 @@ const Login = () => {
 
   const handleLogin = async (e) => {
     e.preventDefault();
-    setIsLoading(true); // Set isLoading state to true
+    setIsLoading(true);
 
     try {
       const response = await fetch("https://fakestoreapi.com/auth/login", {
@@ -36,7 +36,7 @@ const Login = () => {
       setError(true);
     }
 
-    setIsLoading(false); // Set isLoading state back to false
+    setIsLoading(false);
   };
 
   return (

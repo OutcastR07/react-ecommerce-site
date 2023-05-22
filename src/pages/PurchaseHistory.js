@@ -41,14 +41,15 @@ const PurchaseHistory = () => {
               </span>
               <span className="text-lg">{purchase.timestamp}</span>
             </p>
-            {/* Display other purchase details */}
             {index !== purchaseHistory.length - 1 && (
               <hr className="my-8 border-t border-gray-300" />
             )}
           </div>
         ))
       ) : (
-        <p>No purchase history available.</p>
+        <p className="my-10 font-semibold text-5xl">
+          No purchase history available.
+        </p>
       )}
     </div>
   );

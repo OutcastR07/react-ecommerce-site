@@ -52,7 +52,7 @@ const UserModal = ({ open, onClose, user }) => {
   };
 
   const updateUserInfo = () => {
-    // Update user information
+    // Updating user information
     const updatedUser = {
       ...user,
       email: updatedEmail,

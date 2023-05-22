@@ -12,34 +12,31 @@ const Sidebar = () => {
     useContext(CartContext);
   const { user } = useContext(UserContext);
 
-  // Generate a unique order ID
+  // Generating a unique order ID
   const generateOrderId = () => {
     const timestamp = new Date().getTime();
     const randomNum = Math.floor(Math.random() * 1000);
     return `ORDER${timestamp}${randomNum}`;
   };
 
-  // Handle purchase action
+  // Handling purchase action
   const handlePurchase = () => {
     if (user) {
-      // Create purchase data
+      // Creating purchase data
       const purchaseData = {
         orderId: generateOrderId(),
         products: cart,
         totalPrice: totalPrice,
         timestamp: new Date().toLocaleString(),
-        // Add other relevant purchase details
       };
 
-      // Add purchase data to history
+      // Adding purchase data to history
       addPurchaseToHistory(purchaseData);
 
       // Clear the cart
       clearCart();
     } else {
-      // User is not logged in, handle accordingly
       console.log("User is not logged in");
-      // You can show an error message or redirect to the login page
     }
   };
 
@@ -72,7 +69,7 @@ const Sidebar = () => {
             <span className="mr-2">Total:</span>${" "}
             {parseFloat(totalPrice).toFixed(2)}
           </div>
-          {/* clear cart icon */}
+          {/* clear cart */}
           <div
             onClick={clearCart}
             className="cursor-pointer py-4 bg-red-500 text-white w-12 h-12 flex justify-center items-center text-xl"

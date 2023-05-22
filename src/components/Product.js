@@ -14,7 +14,7 @@ const Product = ({ product }) => {
       setIsLoading(false);
     }, 1000);
 
-    // Clean up the timer
+    // Timer cleanup
     return () => clearTimeout(delay);
   }, []);
 
