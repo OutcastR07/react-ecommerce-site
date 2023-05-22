@@ -7,6 +7,7 @@ import { ProductContext } from "../contexts/ProductContext";
 const Home = () => {
   const { products } = useContext(ProductContext);
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortOption, setSortOption] = useState("");
   const productsPerPage = 8;
 
   const indexOfLastProduct = currentPage * productsPerPage;
@@ -15,6 +16,17 @@ const Home = () => {
     indexOfFirstProduct,
     indexOfLastProduct
   );
+
+  let sortedProducts = currentProducts;
+
+  switch (sortOption) {
+    case "price-low-to-high":
+      sortedProducts = currentProducts.sort((a, b) => a.price - b.price);
+      break;
+    case "price-high-to-low":
+      sortedProducts = currentProducts.sort((a, b) => b.price - a.price);
+      break;
+  }
 
   const totalPages = Math.ceil(products.length / productsPerPage);
 
@@ -32,6 +44,7 @@ const Home = () => {
 
   const handlePageClick = (page) => {
     setCurrentPage(page);
+    setSortOption(""); // Reset the sorting option
   };
 
   return (
@@ -39,8 +52,21 @@ const Home = () => {
       <Banner />
       <section className="py-16">
         <div className="container mx-auto">
+          <div className="flex justify-start mb-6">
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className={`${
+                sortOption ? "border-none" : "border"
+              } bg-transparent p-2 focus:outline-none`}
+            >
+              <option value="">Sort By</option>
+              <option value="price-low-to-high">Price: Low to High</option>
+              <option value="price-high-to-low">Price: High to Low</option>
+            </select>
+          </div>
           <div className="grid grid-col-1 md:grid-cols-2 lg:grid-cols-4 xl-grid-cols-5 gap-[30px] max-w-sm mx-auto md:max-w-none md:mx-0">
-            {currentProducts.map((product) => (
+            {sortedProducts.map((product) => (
               <Product product={product} key={product.id} />
             ))}
           </div>
