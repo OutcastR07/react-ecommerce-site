@@ -5,6 +5,10 @@ export const UserContext = createContext();
 export const UserProvider = ({ children }) => {
   const [user, setUser] = useState(null);
 
+  const updateUser = (updatedUser) => {
+    setUser(updatedUser);
+  };
+
   const login = (username, token) => {
     const user = {
       username,
@@ -18,7 +22,7 @@ export const UserProvider = ({ children }) => {
   };
 
   return (
-    <UserContext.Provider value={{ user, login, logout }}>
+    <UserContext.Provider value={{ user, updateUser, login, logout }}>
       {children}
     </UserContext.Provider>
   );

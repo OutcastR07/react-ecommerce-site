@@ -1,10 +1,11 @@
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { CartContext } from "../contexts/CartContext";
 import { SidebarContext } from "../contexts/SidebarContext";
 import { UserContext } from "../contexts/UserContext";
 import { default as Logo } from "../img/logo.png";
+import UserModal from "./UserModal";
 
 const Navbar = () => {
   const [isActive, setIsActive] = useState(false);
@@ -12,12 +13,17 @@ const Navbar = () => {
   const { isOpen, setIsOpen } = useContext(SidebarContext);
   const { itemAmount } = useContext(CartContext);
   const { user, logout } = useContext(UserContext);
+  const [modalOpen, setModalOpen] = useState(false);
+  const userMenuRef = useRef(null);
 
-  // Event listener
   useEffect(() => {
     window.addEventListener("scroll", () => {
       window.scrollY > 60 ? setIsActive(true) : setIsActive(false);
     });
+    window.addEventListener("click", handleClickOutside);
+    return () => {
+      window.removeEventListener("click", handleClickOutside);
+    };
   }, []);
 
   const handleLogout = () => {
@@ -26,6 +32,20 @@ const Navbar = () => {
 
   const handleUsernameClick = () => {
     setShowLists(!showLists);
+  };
+
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  const handleClickOutside = (event) => {
+    if (userMenuRef.current && !userMenuRef.current.contains(event.target)) {
+      setShowLists(false);
+    }
   };
 
   return (
@@ -43,17 +63,20 @@ const Navbar = () => {
           </div>
           <div className="flex items-center gap-x-4">
             {user ? (
-              <div className="relative">
+              <div className="relative" ref={userMenuRef}>
                 <div className="cursor-pointer" onClick={handleUsernameClick}>
                   {user.username}
                 </div>
                 {showLists && (
                   <div className="absolute mt-2 py-2 bg-white shadow-md rounded-md text-sm z-10">
-                    <button className="block w-full px-4 py-2 hover:bg-gray-100">
+                    <button
+                      className="block w-full px-4 py-2 hover:bg-gray-100"
+                      onClick={handleOpenModal}
+                    >
                       Details
                     </button>
                     <button className="block w-full px-4 py-2 hover:bg-gray-100">
-                      Purchase History
+                      History
                     </button>
                     <button
                       className="block w-full px-4 py-2 text-red-500 hover:bg-gray-100"
@@ -82,6 +105,7 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      <UserModal open={modalOpen} onClose={handleCloseModal} user={user} />
       <style>
         {`
           @media (max-width: 640px) {
